@@ -126,12 +126,14 @@ public class ArrayList<T> implements List<T> {
             System.arraycopy(elementData, 0, newElementData, 0, size);
             setElementData(newElementData);
         } else {
-            setElementData(new Object[Math.max(DEFAULT_CAPACITY, minCapacity)]);
+            int initialCapacity = (minCapacity > DEFAULT_CAPACITY) ? minCapacity : DEFAULT_CAPACITY;
+            setElementData(new Object[initialCapacity]);
         }
     }
 
     private int newLength(int oldLength, int minGrowth, int prefGrowth) {
-        int prefLength = oldLength + Math.max(minGrowth, prefGrowth); // might overflow
+        int growth = (prefGrowth > minGrowth) ? prefGrowth : minGrowth;
+        int prefLength = oldLength + growth;
         if (0 < prefLength && prefLength <= SOFT_MAX_ARRAY_LENGTH) {
             return prefLength;
         } else {
@@ -146,7 +148,7 @@ public class ArrayList<T> implements List<T> {
             throw new OutOfMemoryError(
                     "Required array length " + oldLength + " + " + minGrowth + " is too large");
         } else {
-            return Math.max(minLength, SOFT_MAX_ARRAY_LENGTH);
+            return (minLength > SOFT_MAX_ARRAY_LENGTH) ? minLength : SOFT_MAX_ARRAY_LENGTH;
         }
     }
 
