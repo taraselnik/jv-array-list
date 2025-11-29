@@ -169,16 +169,15 @@ public class ArrayList<T> implements List<T> {
     }
 
     private int indexOfRange(T element, int end) {
-        Object[] currentData = elementData;
         if (element == null) {
             for (int i = 0; i < end; i++) {
-                if (currentData[i] == null) {
+                if (elementData[i] == null) {
                     return i;
                 }
             }
         } else {
             for (int i = 0; i < end; i++) {
-                if (element.equals(currentData[i])) {
+                if (element.equals(elementData[i])) {
                     return i;
                 }
             }
